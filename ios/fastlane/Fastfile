@@ -24,7 +24,10 @@ platform :ios do
     )
 
     # 4. 自增版本号
-    increment_build_number(xcodeproj: "MYRN.xcodeproj")
+    increment_build_number(
+      build_number: latest_testflight_build_number(api_key: api_key) + 1,
+      xcodeproj: "MYRN.xcodeproj"
+    )
 
     # 5. 编译 App
     build_app(
