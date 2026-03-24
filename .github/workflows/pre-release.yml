@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+
 jobs:
   pre_release_ios_build:
     name: "Beta Deployment iOS"
@@ -37,25 +38,24 @@ jobs:
           KEYCHAIN_PASSWORD="build"
           security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
           security default-keychain -s "$KEYCHAIN_PATH"
-          security list-keychains -d user -s "$KEYCHAIN_PATH" $(security list-keychains -d user | xargs)
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
           security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          # 关键：这行代替了报错的 set-keychain-partition-list
+          security list-keychains -d user -s "$KEYCHAIN_PATH" $(security list-keychains -d user | xargs)
 
       - name: Setup SSH Keys
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.MATCH_SSH_PRIVATE_KEY }}
-
-      - name: Disable SSH Host Key Verification
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-
       - name: Install CocoaPods
         working-directory: ios
         run: |
+          gem install bundler:2.4.22 
           bundle install
           bundle exec pod install
+        env:
+          LANG: en_US.UTF-8
+          LC_ALL: en_US.UTF-8
 
       - name: Build and Upload to TestFlight
         run: bundle exec fastlane beta
@@ -64,4 +64,7 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+          # 确保 Fastlane 知道使用我们创建的 Keychain
+          MATCH_KEYCHAIN_NAME: ${{ runner.temp }}/app-signing.keychain-db
+          MATCH_KEYCHAIN_PASSWORD: "build"
           CI: true
