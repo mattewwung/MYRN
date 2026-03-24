@@ -33,19 +33,6 @@ jobs:
         env:
           BUNDLE_DISABLE_SHARED_GEMS: "true"
 
-      - name: Set up Keychain
-        run: |
-          # 1. 创建并设置默认
-          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
-          security default-keychain -s "$KEYCHAIN_PATH"
-          # 2. 解锁并设置超时时间
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
-          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
-          # 3. 将其加入用户的搜索列表 (修复 xargs 可能带来的空格路径错误)
-          security list-keychains -d user -s "$KEYCHAIN_PATH"
-          # 4. 【关键修复】赋予打包工具静默访问权限，防止卡死
-          security set-keychain-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
-
       - name: Setup SSH Keys
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -70,7 +57,4 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
-          # 明确告诉 Fastlane 使用我们刚才创建的钥匙串
-          MATCH_KEYCHAIN_NAME: ${{ runner.temp }}/app-signing.keychain-db
-          MATCH_KEYCHAIN_PASSWORD: "build"
           CI: true
