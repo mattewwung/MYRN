@@ -52,8 +52,9 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
       - name: Install CocoaPods
+        working-directory: ios
         run: |
-          cd ios
+          bundle install
           bundle exec pod install
 
       - name: Build and Upload to TestFlight
