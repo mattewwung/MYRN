@@ -8,6 +8,7 @@ jobs:
   pre_release_ios_build:
     name: "Beta Deployment iOS"
     runs-on: macos-latest
+    timeout-minutes: 60
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,6 +19,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -28,6 +30,16 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
           working-directory: ios
+
+      - name: Set up Keychain
+        run: |
+          security create-keychain -p "" build.keychain
+          security list-keychains -s build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security set-keychain-settings -lut 21600 build.keychain
+          # 允许所有程序访问该钥匙串，防止弹出权限确认框
+          security set-keychain-partition-list -S apple-tool:,apple:,codesign: -s -k "" build.keychain
 
       - name: Setup SSH Keys
         uses: webfactory/ssh-agent@v0.9.0
@@ -43,7 +55,8 @@ jobs:
         run: cd ios && pod install
 
       - name: Build and Upload to TestFlight
-        run: cd ios && bundle exec fastlane beta
+        run: bundle exec fastlane beta
+        working-directory: ios
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
