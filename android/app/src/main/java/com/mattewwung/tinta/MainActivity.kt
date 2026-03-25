@@ -1,4 +1,4 @@
-package com.myrn
+package com.mattewwung.tinta
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

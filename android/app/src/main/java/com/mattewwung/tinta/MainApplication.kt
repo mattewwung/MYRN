@@ -1,4 +1,4 @@
-package com.myrn
+package com.mattewwung.tinta
 
 import android.app.Application
 import com.facebook.react.PackageList
