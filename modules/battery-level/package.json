@@ -1,0 +1,25 @@
+{
+  "name": "react-native-battery-level",
+  "version": "1.0.0",
+  "description": "battery-level",
+  "main": "src/index",
+  "codegenConfig": {
+    "name": "BatteryLevelSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "author": "WANG XIAO YU <mattewwung@gmail.com> (https://github.com/mattewwung)",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/mattewwung/react-native-battery-level#readme",
+  "create-react-native-library": {
+    "type": "turbo-module",
+    "languages": "kotlin-objc",
+    "tools": [
+      "eslint",
+      "jest",
+      "lefthook",
+      "release-it"
+    ],
+    "version": "0.57.2"
+  }
+}
