@@ -57,14 +57,14 @@ jobs:
         working-directory: ios
         run: bundle exec pod install
 
-      - name: Build and Upload to TestFlight
-        run: bundle exec fastlane beta
-        working-directory: ios
-        env:
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
-          APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
-          MATCH_KEYCHAIN_NAME: ${{ runner.temp }}/app-signing.keychain-db
-          MATCH_KEYCHAIN_PASSWORD: "build"
-          CI: true
+      # - name: Build and Upload to TestFlight
+      #   run: bundle exec fastlane beta
+      #   working-directory: ios
+      #   env:
+      #     MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      #     APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+      #     APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+      #     APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+      #     MATCH_KEYCHAIN_NAME: ${{ runner.temp }}/app-signing.keychain-db
+      #     MATCH_KEYCHAIN_PASSWORD: "build"
+      #     CI: true
