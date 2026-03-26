@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet, useColorScheme, View, TouchableOpacity, Text } from 'react-native';
+import { StatusBar, StyleSheet, useColorScheme, View, TouchableOpacity, Text, TextInput } from 'react-native';
 import {
   SafeAreaProvider,
 } from 'react-native-safe-area-context';
@@ -33,6 +33,8 @@ function AppContent() {
       <TouchableOpacity style={{ backgroundColor: 'blue', padding: 10, marginBottom: 10 }}>
         <Text style={{color: 'white'}}>Click me 当前电量：{batteryLevel}</Text>
       </TouchableOpacity>
+      <Text testID="welcome">welcome</Text>
+      <TextInput placeholder="Enter text here" style={{borderWidth: 1, borderColor: 'gray'}} testID="text_input" />
     </View>
   );
 }
