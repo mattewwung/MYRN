@@ -11,6 +11,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { getBatteryLevel } from 'react-native-battery-level';
 import { useEffect, useState } from 'react';
 import * as Sentry from '@sentry/react-native';
+import Home from './src/Home';
 
 Sentry.init({
   dsn: 'https://6584a46584880276883f9cea6ca84fca@o4511114195697664.ingest.us.sentry.io/4511115020468224',
@@ -64,6 +65,7 @@ function AppContent() {
 
   return (
     <View style={styles.container}>
+      <Home />
       <TouchableOpacity
         style={{ backgroundColor: 'blue', padding: 10, marginBottom: 10 }}
       >
