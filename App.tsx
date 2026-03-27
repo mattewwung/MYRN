@@ -21,7 +21,6 @@ function AppContent() {
 
   useEffect(() => {
     getBatteryLevel().then(level => {
-      console.info(level, '-level--')
       setBatteryLevel(level);
     }).catch(error => {
       console.error('Error getting battery level:', error);
@@ -31,8 +30,9 @@ function AppContent() {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={{ backgroundColor: 'blue', padding: 10, marginBottom: 10 }}>
-        <Text style={{color: 'white'}}>Click me 当前电量：{batteryLevel}</Text>
+        <Text style={{color: 'white'}}>Click me </Text>
       </TouchableOpacity>
+      <Text testID="battery_level">当前电量：{batteryLevel}</Text>
       <Text testID="welcome">welcome</Text>
       <TextInput placeholder="Enter text here" style={{borderWidth: 1, borderColor: 'gray'}} testID="text_input" />
     </View>
