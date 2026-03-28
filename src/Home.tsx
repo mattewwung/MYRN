@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import Logo from './assets/briefcase-svgrepo-com.svg';
+import Logo from '@assets/briefcase-svgrepo-com.svg';
 
 const Home = () => {
   return (
